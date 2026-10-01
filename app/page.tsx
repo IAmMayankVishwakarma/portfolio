@@ -1,69 +1,167 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { ExternalLink } from "lucide-react";
+import Header from "./Global Components/Header";
+import { translations, type Language } from "./translations";
 
-export default function Home() {
+type HomeProps = {
+  searchParams: Promise<{ lang?: string | string[] }>;
+};
+
+function getLanguage(value?: string | string[]): Language {
+  return value === "hi" ? "hi" : "en";
+}
+
+export async function generateMetadata({ searchParams }: HomeProps): Promise<Metadata> {
+  const { lang } = await searchParams;
+  return translations[getLanguage(lang)].metadata;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const { lang } = await searchParams;
+  const language = getLanguage(lang);
+  const t = translations[language];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <Header language={language} />
+      <main>
+        <section className="hero-section page-width" id="home">
+          <div className="hero-copy">
+            <p className="eyebrow"><span className="eyebrow-dot" /> Mayank Vishwakarma <span> / </span> {t.hero.location}</p>
+            <h1>{t.hero.lineOne}<br /><span>{t.hero.lineTwo}</span></h1>
+            <p className="hero-description">
+              {t.hero.description}
+            </p>
+            <p className="availability-note">{t.hero.availability}</p>
+            <div className="hero-actions">
+              <a className="button button-primary" href="#experience">{t.hero.experienceLink} <span aria-hidden="true">↘</span></a>
+              <a className="text-link" href="mailto:imayankvishwakarma@gmail.com">{t.hero.contactLink} <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <div className="hero-art" aria-label={t.hero.artLabel} role="img">
+            <div className="orbit orbit-one" />
+            <div className="orbit orbit-two" />
+            <div className="hero-monogram">M<span>.</span></div>
+            <p className="art-caption">LARAVEL <span>×</span> PHP <span>×</span> FULL-STACK</p>
+          </div>
+          <a className="scroll-cue" href="#about"><span /> {t.hero.scrollLabel}</a>
+        </section>
+
+        <section className="content-section page-width" id="about">
+          <p className="section-index">01 <span>/</span> {t.about.section}</p>
+          <div className="section-content">
+            <h2>{t.about.titleLineOne}<br /><span>{t.about.titleLineTwo}</span></h2>
+            <p className="section-description">{t.about.description}</p>
+            <div className="profile-stats" aria-label={t.about.statsLabel}>
+              <div><strong>4+</strong><span>{t.about.stats[0]}</span></div>
+              <div><strong>10k+</strong><span>{t.about.stats[1]}</span></div>
+              <div><strong>4</strong><span>{t.about.stats[2]}</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="content-section page-width" id="experience">
+          <p className="section-index">02 <span>/</span> {t.experience.section}</p>
+          <div className="section-content">
+            <h2>{t.experience.titleLineOne}<br /><span>{t.experience.titleLineTwo}</span></h2>
+            <p className="section-description">{t.experience.intro}</p>
+            <div className="experience-list">
+              {t.experience.entries.map((item) => (
+                <article className="experience-item" key={`${item.company}-${item.dates}`}>
+                  <div className="experience-heading">
+                    <div>
+                      <h3>{item.role}</h3>
+                      <p className="experience-company">{item.company}</p>
+                    </div>
+                    <p className="experience-dates">{item.dates}</p>
+                  </div>
+                  {item.project && <p className="experience-project">{t.experience.projectPrefix} {item.project}</p>}
+                  <ul>
+                    {item.details.map((detail) => <li key={detail}>{detail}</li>)}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="content-section page-width" id="projects">
+          <p className="section-index">03 <span>/</span> {t.projects.section}</p>
+          <div className="section-content">
+            <h2>{t.projects.titleLineOne}<br /><span>{t.projects.titleLineTwo}</span></h2>
+            <p className="section-description">{t.projects.intro}</p>
+            <div className="project-list">
+              {t.projects.items.map((project, index) => (
+                <a
+                  className="project-item"
+                  href={project.url}
+                  key={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="project-index">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="project-name">{project.name}</span>
+                  <span className="project-url">{new URL(project.url).hostname}</span>
+                  <ExternalLink size={16} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="content-section page-width" id="skills">
+          <p className="section-index">04 <span>/</span> {t.skills.section}</p>
+          <div className="section-content">
+            <h2>{t.skills.titleLineOne}<br /><span>{t.skills.titleLineTwo}</span></h2>
+            <div className="skill-groups">
+              {t.skills.groups.map(({ category, details }) => (
+                <div className="skill-group" key={category}>
+                  <h3>{category}</h3>
+                  <p>{details}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="content-section page-width" id="certifications">
+          <p className="section-index">05 <span>/</span> {t.certifications.section}</p>
+          <div className="section-content">
+            <h2>{t.certifications.titleLineOne}<br /><span>{t.certifications.titleLineTwo}</span></h2>
+            <ul className="credential-list">
+              {t.certifications.items.map((certification) => <li key={certification}>{certification}</li>)}
+            </ul>
+            <div className="education-line">
+              <p className="education-label">{t.certifications.education}</p>
+              <p><strong>{t.certifications.degree}</strong><br />{t.certifications.institution}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="contact-section" id="contact">
+          <div className="page-width contact-inner">
+            <p className="section-index">06 <span>/</span> {t.contact.section}</p>
+            <h2>{t.contact.titleLineOne}<br /><span>{t.contact.titleLineTwo}</span></h2>
+            <p>{t.contact.description}</p>
+            <div className="contact-links">
+              <a href="mailto:imayankvishwakarma@gmail.com">imayankvishwakarma@gmail.com <span aria-hidden="true">↗</span></a>
+              <a href="tel:+919669635212">+91 96696 35212 <span aria-hidden="true">↗</span></a>
+            </div>
+            <div className="profile-links" aria-label="Professional profiles">
+              {t.contact.socialLinks.map(({ label, url }) => (
+                <a href={url} key={label} target="_blank" rel="noreferrer">
+                  {label}<ExternalLink size={14} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+            <a className="button button-primary" href="mailto:imayankvishwakarma@gmail.com">{t.contact.emailAction} <span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
       </main>
-    </div>
+      <footer className="site-footer page-width">
+        <a className="footer-brand" href="#home">Mayank Vishwakarma<span>.</span></a>
+        <p>{t.footer.role} <span aria-hidden="true">·</span> {t.footer.location}</p>
+      </footer>
+    </>
   );
 }

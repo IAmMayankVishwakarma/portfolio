@@ -121,6 +121,14 @@ export const translations = {
         "Selected websites across hospitality, healthcare, education, and professional services.",
       items: [
         {
+          name: "Asmivilla.in",
+          url: "https://asmivilla.in/",
+        },
+        {
+          name: "KPKhetan.com",
+          url: "https://kpkhetan.com/en",
+        },
+        {
           name: "Chambal Wildlife Safari · Mela Camp",
           url: "https://chambalwildlifesafari.com/",
         },
@@ -331,6 +339,14 @@ export const translations = {
       intro:
         "हॉस्पिटैलिटी, स्वास्थ्य सेवा, शिक्षा और व्यावसायिक सेवाओं के चुनिंदा वेबसाइट प्रोजेक्ट।",
       items: [
+        {
+          name: "Asmivilla.in",
+          url: "https://asmivilla.in/",
+        },
+        {
+          name: "KPKhetan.com",
+          url: "https://kpkhetan.com/en",
+        },
         {
           name: "Chambal Wildlife Safari · Mela Camp",
           url: "https://chambalwildlifesafari.com/",

@@ -95,7 +95,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 <a
                   className="project-item"
                   href={project.url}
-                  key={project.url}
+                  key={`${index}-${project.url}`}
                   target="_blank"
                   rel="noreferrer"
                 >
